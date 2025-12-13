@@ -46,4 +46,4 @@ certificates
 post_migrator.py
 
 # Server
-server/node_modules
+server/node_modules# Plans directory is tracked, but large files can be excluded if needed

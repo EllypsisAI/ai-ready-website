@@ -166,7 +166,7 @@ async function analyzeHTML(html: string, metadata: any, url: string): Promise<Ch
  * Analyze a single page
  */
 export async function analyzeSinglePage(url: string): Promise<PageAnalysis> {
-  const scrapeResult = await firecrawl.scrapeUrl(url, {
+  const scrapeResult = await firecrawl.scrape(url, {
     formats: ['html']
   });
 
@@ -253,7 +253,7 @@ export function aggregateAnalysis(pages: PageAnalysis[]): AggregatedCheck[] {
  */
 export async function discoverPages(baseUrl: string, limit: number = 20): Promise<string[]> {
   try {
-    const mapResult = await firecrawl.mapUrl(baseUrl, {
+    const mapResult = await firecrawl.map(baseUrl, {
       limit
     });
 

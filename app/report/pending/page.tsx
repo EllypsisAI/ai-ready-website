@@ -9,12 +9,13 @@ export default function PendingReportPage() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const sessionId = searchParams.get("session_id");
+  const reportIdParam = searchParams.get("report_id");
   const [status, setStatus] = useState<"processing" | "completed" | "error">("processing");
-  const [reportId, setReportId] = useState<string | null>(null);
+  const [reportId, setReportId] = useState<string | null>(reportIdParam);
   const [retryCount, setRetryCount] = useState(0);
 
   useEffect(() => {
-    if (!sessionId) {
+    if (!sessionId && !reportId) {
       setStatus("error");
       return;
     }
@@ -22,7 +23,7 @@ export default function PendingReportPage() {
     // Poll for report completion
     const checkStatus = async () => {
       try {
-        const response = await fetch(`/api/reports/status?sessionId=${sessionId}`);
+        const response = await fetch(`/api/reports/status?reportId=${reportId || sessionId}`);
         const data = await response.json();
 
         if (data.status === "completed" && data.reportId) {
@@ -53,7 +54,7 @@ export default function PendingReportPage() {
     };
 
     checkStatus();
-  }, [sessionId, retryCount, router]);
+  }, [sessionId, reportId, retryCount, router]);
 
   return (
     <div className="min-h-screen bg-black text-white flex items-center justify-center p-4">
@@ -126,7 +127,7 @@ export default function PendingReportPage() {
             </h1>
             <p className="body-large text-white/70">
               We encountered an issue generating your report.
-              Please contact support with your session ID: {sessionId}
+              Please contact support with your ID: {reportId || sessionId}
             </p>
             <button
               onClick={() => router.push("/")}

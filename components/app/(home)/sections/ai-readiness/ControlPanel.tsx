@@ -25,6 +25,7 @@ import { useEffect, useState } from "react";
 import ScoreChart from "./ScoreChart";
 import RadarChart from "./RadarChart";
 import MetricBars from "./MetricBars";
+import UpgradeModal from "@/components/shared/modals/UpgradeModal";
 
 interface ControlPanelProps {
   isAnalyzing: boolean;
@@ -123,6 +124,7 @@ export default function ControlPanel({
   const [hoveredCheck, setHoveredCheck] = useState<string | null>(null);
   const [enhancedScore, setEnhancedScore] = useState(0);
   const [viewMode, setViewMode] = useState<'grid' | 'chart' | 'bars'>('grid');
+  const [showUpgradeModal, setShowUpgradeModal] = useState(false);
 
   useEffect(() => {
     if (analysisData && analysisData.checks && showResults) {
@@ -677,13 +679,19 @@ export default function ControlPanel({
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.8 }}
-          className="flex gap-12 justify-center"
+          className="flex gap-12 justify-center mb-20"
         >
           <button
             onClick={onReset}
             className="px-20 py-10 bg-accent-white border border-black-alpha-8 hover:bg-black-alpha-4 rounded-8 text-label-medium transition-all"
           >
             Analyze Another Site
+          </button>
+          <button
+            onClick={() => setShowUpgradeModal(true)}
+            className="px-20 py-10 bg-heat-100 hover:bg-heat-120 text-white rounded-8 text-label-medium transition-all font-medium"
+          >
+            Get Full Report ($49)
           </button>
           {true && ( 
             <button 
@@ -837,6 +845,14 @@ export default function ControlPanel({
           )}
         </motion.div>
       )}
+
+      {/* Upgrade Modal */}
+      <UpgradeModal
+        isOpen={showUpgradeModal}
+        onClose={() => setShowUpgradeModal(false)}
+        url={url}
+        currentScore={enhancedScore > 0 ? enhancedScore : overallScore}
+      />
     </motion.div>
   );
 }

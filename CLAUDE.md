@@ -190,6 +190,23 @@ Custom Tailwind configuration includes:
 
 3. **Real-time Analysis**: Progressive loading states with step-by-step feedback
 
+## Planning & Documentation
+
+This project uses a structured planning system in the `plans/` directory:
+
+- **`plans/README.md`**: Overview of the planning system
+- **`plans/active/`**: Current features being implemented
+- **`plans/completed/`**: Completed features with implementation details
+- **`plans/future/`**: Ideas and planned enhancements
+
+**When working on new features:**
+1. Check `plans/active/` for ongoing work to avoid conflicts
+2. Review `plans/completed/` for context on existing features
+3. Refer to specific plan files only when needed (they are NOT loaded into context by default)
+
+**Key completed features:**
+- `plans/completed/paid-reports.md` - Premium report generation system (Stripe, OpenAI, Vercel KV, Resend)
+
 ## Important Conventions
 
 - All component files use PascalCase for directories and files
